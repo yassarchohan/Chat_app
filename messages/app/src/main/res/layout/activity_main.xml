@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   android:orientation="vertical"
+    tools:context="com.example.yassarchohan.messages.MainActivity">
+
+    <TextView
+        android:textSize="24sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to your personal chat app!" />
+
+    <EditText
+        android:paddingTop="16dp"
+        android:hint="Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/forname"
+        />
+
+    <EditText
+        android:paddingTop="16dp"
+        android:hint="Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/forpassword"
+        />
+
+    <Button
+        android:id="@+id/signin"
+        android:text="sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="forsignin"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign_up"
+        android:id="@+id/signup"
+        android:onClick="forsignup"/>
+
+    <com.google.android.gms.common.SignInButton
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/forerror"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

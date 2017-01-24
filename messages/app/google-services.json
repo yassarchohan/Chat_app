@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "1030017591373",
+    "firebase_url": "https://practice-bf767.firebaseio.com",
+    "project_id": "practice-bf767",
+    "storage_bucket": "practice-bf767.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030017591373:android:ba9df134cfbb9359",
+        "android_client_info": {
+          "package_name": "com.example.yassarchohan.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030017591373-lss4fhs086gva51gd2tfkd8u6oga3d7i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoUmsagKP7B1IDFtz1364aIUEx1RxYlgE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030017591373:android:61bda918004e3061",
+        "android_client_info": {
+          "package_name": "com.example.yassarchohan.messages"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030017591373-lss4fhs086gva51gd2tfkd8u6oga3d7i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoUmsagKP7B1IDFtz1364aIUEx1RxYlgE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
