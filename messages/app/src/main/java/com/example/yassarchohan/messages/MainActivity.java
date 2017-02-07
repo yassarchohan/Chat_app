@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Toast.makeText(MainActivity.this, "login succesfully", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(MainActivity.this,letschat.class);
+                    startActivity(intent);
                 } else {
                     // User is signed out
                     Toast.makeText(MainActivity.this, "user is signed out", Toast.LENGTH_SHORT).show();
@@ -128,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void forsignin(View v) {
         musername = edt.getText().toString();
+
         fAuth.signInWithEmailAndPassword(musername, edt2.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -141,7 +144,9 @@ public class MainActivity extends AppCompatActivity {
                             //    txt.setText("error handling auth" + task.getException());
                         } else {
                             Intent intent = new Intent(MainActivity.this, letschat.class);
-                            startActivity(intent);
+                            intent.putExtra("old value",musername);
+                            startActivityForResult(intent,0);
+
                             // Toast.makeText(MainActivity.this, "login successfull", Toast.LENGTH_SHORT).show();
                         }
 
