@@ -24,28 +24,40 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final int RC_Signin = 1;
     private EditText edt;
-    private EditText edt2;
+    private EditText edt2,edt3;
 
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private String musername;
     private ChildEventListener mchildlistener;
     private firview mMessageAdapter;
-    private DatabaseReference mDatabase;
+
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInResult result;
     private gettermethods gm;
+    private FirebaseStorage mstorage;
+    FirebaseDatabase fb;
+    private DatabaseReference mDatabase,mDatabase2;
+    private FirebaseUser user;
+    private String currentuser;
+    String Name;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fb = FirebaseDatabase.getInstance();
+
+
 
 
         Button btn = (Button) findViewById(R.id.signin);
@@ -55,10 +67,29 @@ public class MainActivity extends AppCompatActivity {
 
         edt = (EditText) findViewById(R.id.forname);
         edt2 = (EditText) findViewById(R.id.forpassword);
+        edt3 = (EditText) findViewById(R.id.forusername);
 
         gm = new gettermethods();
 
+//
+
         Authsetup();
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                forsignin();
+
+            }
+        });
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                forsignup();
+
+            }
+        });
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -75,7 +106,11 @@ public class MainActivity extends AppCompatActivity {
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 signIn();
+
+
+
 
             }
         });
@@ -93,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
                     Toast.makeText(MainActivity.this, "login succesfully", Toast.LENGTH_LONG).show();
@@ -128,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void forsignin(View v) {
+    public void forsignin() {
         musername = edt.getText().toString();
 
         fAuth.signInWithEmailAndPassword(musername, edt2.getText().toString())
@@ -144,18 +179,19 @@ public class MainActivity extends AppCompatActivity {
                             //    txt.setText("error handling auth" + task.getException());
                         } else {
                             Intent intent = new Intent(MainActivity.this, letschat.class);
-                            intent.putExtra("old value",musername);
+                            intent.putExtra("name", String.valueOf(user));
                             startActivityForResult(intent,0);
 
                             // Toast.makeText(MainActivity.this, "login successfull", Toast.LENGTH_SHORT).show();
                         }
 
 
+
                     }
                 });
     }
 
-    public void forsignup(View v) {
+    public void forsignup() {
         fAuth.createUserWithEmailAndPassword(edt.getText().toString(), edt2.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -166,6 +202,10 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(MainActivity.this, "you are registered",
                                     Toast.LENGTH_LONG).show();
+
+                            currentuser = user.getUid();
+                            mDatabase = fb.getReference().child("Users").child("CurrentUsers").child(currentuser);
+                            mDatabase2 = fb.getReference().child("Users").child("Groupusers").child(currentuser);
 
                             if (task.isComplete()) {
 
@@ -183,6 +223,18 @@ public class MainActivity extends AppCompatActivity {
 //                            txt.setText("sorry to register you sir please enter correct email or enter strong password with at least 6 chars");
                         }
 
+                        user = FirebaseAuth.getInstance().getCurrentUser();
+                        String email = user.getEmail();
+                        Name = edt3.getText().toString();
+                        String id = user.getUid();
+
+
+                        if(Name != null && id !=null  && email != null){
+                            gettermethods gm =  new gettermethods(Name,id,email);
+                            mDatabase.setValue(gm);
+
+                            mDatabase2.setValue(gm);
+                        }
                         // ...
                     }
                 });

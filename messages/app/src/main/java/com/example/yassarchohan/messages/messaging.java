@@ -51,12 +51,14 @@ import java.util.List;
 
 public class messaging extends AppCompatActivity {
 
-    FirebaseDatabase fb;
+    Bundle bundle;
+
+    FirebaseDatabase fb,fb2;
     private NotificationCompat.Builder notification;
 
     public RemoteMessage.Notification RN;
 
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase,mDatabase2;
     private ChildEventListener mchildlistener;
 
     public static final int RC_PHOTO_PICKER = 2;
@@ -81,14 +83,27 @@ public class messaging extends AppCompatActivity {
     public static final int progress_bar_type = 0;
     private ProgressDialog pDialog;
 
+    String forkey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
 
+        bundle = getIntent().getExtras();
+
+        forkey = (String) bundle.get("key");
+
+        mUsername = (String) bundle.get("Name");
+
+        Toast.makeText(messaging.this, "name is " + mUsername, Toast.LENGTH_SHORT).show();
+
+        Log.d("key", "onCreate: "+forkey);
 
         gm = new gettermethods();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String getuser = user.getUid();
 
 
         btn = (Button) findViewById(R.id.send);
@@ -97,8 +112,10 @@ public class messaging extends AppCompatActivity {
         mPhotoPickerButton = (ImageButton) findViewById(R.id.photoPickerButton);
 
         fb = FirebaseDatabase.getInstance();
-        fb.setPersistenceEnabled(true);
-        mDatabase = fb.getReference().child("chatmessages");
+        mDatabase = fb.getReference().child("Conversations").child(getuser).child(forkey);
+
+        fb2 = FirebaseDatabase.getInstance();
+        mDatabase2 = fb2.getReference().child("Conversations").child(forkey).child(getuser);
 
 
         mstorage = FirebaseStorage.getInstance();
@@ -166,8 +183,9 @@ public class messaging extends AppCompatActivity {
                     Toast.makeText(messaging.this, "could not send null message", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    gettermethods gmre = new gettermethods(msg, gm.getUsername(), null);
+                    gettermethods gmre = new gettermethods(msg, mUsername, null);
                     mDatabase.push().setValue(gmre);
+                    mDatabase2.push().setValue(gmre);
 
                     String Token = FirebaseInstanceId.getInstance().getToken();
                     Log.d(TAG, "MEssage Token :" + Token);
@@ -182,6 +200,7 @@ public class messaging extends AppCompatActivity {
         mchildlistener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
                 gettermethods gm = dataSnapshot.getValue(gettermethods.class);
                 mMessageAdapter.add(gm);
 
@@ -200,7 +219,6 @@ public class messaging extends AppCompatActivity {
 
                 NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 nm.notify(0, notification.build());
-
 
             }
 
@@ -225,7 +243,7 @@ public class messaging extends AppCompatActivity {
             }
         };
 
-        mDatabase.addChildEventListener(mchildlistener);
+         mDatabase.addChildEventListener(mchildlistener);
 
 
         mMessageListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

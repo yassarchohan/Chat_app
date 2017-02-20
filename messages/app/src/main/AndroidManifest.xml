@@ -18,13 +18,11 @@
         <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -33,11 +31,10 @@
         <activity android:name=".messaging" />
         <activity android:name=".message_adapter" />
         <activity android:name=".forview" />
-
-
-
-
-
+        <activity android:name=".Custom_View" />
+        <activity android:name=".ForGroup" />
+        <activity android:name=".User_groups" />
+        <activity android:name=".Custom_view2"></activity>
     </application>
 
 </manifest>
